@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %} Register {% endblock %}
+
+{% block extra_css %}
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+</style>
+<link href="https://getbootstrap.com/docs/5.1/examples/sign-in/signin.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+<main class="form-signin text-center">
+    <form action="{% url 'accounts:register' %}" method="POST">
+        <a href="https://github.com/EverLookNeverSee/ToDo"><img class="mb-4 rounded-circle border-3 border-white shadow p-1 mb"
+                                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIMAAACDCAMA
+                                                     AACZQ1hUAAAA81BMVEVbacL/0Fv/////cFhYZsFygMtTYsD/z1b//vr/zlD/9uD/
+                                                     6LTm6e7/1Fb/1VT/0lnn9/+N3v//a1Lt7vHCx9yVnc+dpNH39/bS1eWFkMxu1v98
+                                                     iMxQYsTt+v//Z0yrstepsdz/4t7A7P/d3+9od8dhcMXY2+b/h3X/9vRGXMvR8f/M
+                                                     sX9KX8n/7On/jXz/YkawnZZqcrh+fbD2zV52ebSjlp3HrYW7po3hwG6q5f//s6j/
+                                                     e2bpxWn/lofVuHnryGL/qFr/jln/oZO4v92Mh6eZj6H/20+0n4/94qX/1nP/4Jj+
+                                                     2YOHg6z/glf/wFr/y8P/7snZtIUlAAAIGElEQVR4nM2cC1caORSAB4xRWjJTAXks
+                                                     IxaEggXUkaeAsHVBrUvX/v9fs8nMIENekwwWuafHUx9MPu4rN8kNRpwrufRFPnOe
+                                                     xXJ6enq4jeDXk8ecZ/IX6Rx/MIPzs2Q+W6gC+CZgGwk8plrI5pMqDLl89hC/EBjv
+                                                     L+Sx1Wye0QbNkCn8mfEDHIWMlCFf/KMAK4xiXsiQOzfgHycgAo3zHJ8hXdiBEjwB
+                                                     sJDmMVxUd6MET2D1gmXI1HalBE9ALUMzfNsxAoH4tsmQru4agZgjHWTIFXbpC28Q
+                                                     hVyA4etHIGCIr2uGvLF7SxABRv6NofgxasCKKK4YMh+FgCH+8Rg+xiF9hmLOZch/
+                                                     HAKGyLsM2YgMANpvEnmmgVnCkDyM8HpoQ8Ppzhe9Gyy9xbzrAAwSgQEcJjFDXhcB
+                                                     wFbL6fWHs46FkEkEoc5s2O85rZa+PkAeM2iaAtrGvD97NJFlWbG1WBYyHzvNpaGr
+                                                     DWwMQy8qbHA7mCEUHD0IgtBkcAtsLYZCztCZraC9bHZEAD6G2WnOocbbAtW0caGM
+                                                     AFrdqSkn8JUx7bbU3xi4MJSzg+00TRQG4Akym46yQWDeUEzU0Fh0TDUCImanBxTf
+                                                     HMwY50p/alebZqgVNixi9hVVAc8NpdBsLXWU4KtiNm8pMWRVGIDdC3dFnip6toJr
+                                                     qjHYgygIBOJJIW+qMAC7r22HN4h+uCYww2kYQ3QEAtEMhYCnoQz2IDoCFnMQFh3h
+                                                     DPYTD+EoIZejAMRTSHRghqJUV/aCh5B4/iyV55+JtTlQT64JUDSkFYx92+FEROKz
+                                                     YGPpTY6f15qwrFupqsGhlAHUhpwZIvE5GcYQP35ZawINpWvZEIYWLyQwQjhD/NOa
+                                                     IcQv5Qz2nIfwnFRhiAdfYy4kEFIGUJuwzuAi6DJYs6h6gDesGjwEXYYYGogDVMYA
+                                                     u2xMJF4uIjFYliOMDRkDJ0evELQZYmY/CgNg1ZB4SSYjMlgdYZKQMLBxmfh3hZAO
+                                                     R6AYJPEpZgCARjj6qYNAM1gdR6RwIYPNBMXRcTrnigoBwxAzbwShIdHDkPaGo2O1
+                                                     wQUM1kyXAS6ZiWJLhpgp8EohA6dy2ZYBCbxSxMCbMLdlsCY1PQZO3bAtQ0xQR4gY
+                                                     8IKCeYTHcHfiyhlv2Ea73W6IGUx+QSVkaIoYTk4qlcrdX18YgPLoanxwcDC+GpUF
+                                                     DKippQfAmbV9hgr+csYwlO9LpRRGOEilSqWrMt8WQ+5Wh4ABODEpwxeKoTG6dgF8
+                                                     SV2PGjyGzq0GA1xyCigxQ6NeOtiUUr3d4RiDW06JGHo6DCwCVkWdo0l0o8FgP3HK
+                                                     6ZVPEtlguGcRMMQv9hH8LCVgaHHCwmf4XnElgDC6pod3vTP1N6MI1NRhmAoZ2Jg8
+                                                     SFEI9dGDq5n/aAg01WC4ZCZNMcMDbYlxOx6vE64f9BtBQ16CEDFw0oOAoUEjXL8S
+                                                     +7g/pZ9gaTHMlBleKW8o3RMw7/+0R1iT92H48t2VtSkobyCW8NXAGEOPQWyLk79c
+                                                     eZuz6psMriXKK/vQengnfzipnJ2dBXIUZYkHN2etuLbyB3FcUHNWwx8u5f8LWIJl
+                                                     0IpNSX6gcrXPkBqX2zhIS64l1pmCZtDKUQM5Q0APvg3w4I3x9T3lIZQ2UV9nvuCU
+                                                     USuGOxIWa3/wRnQV0PZiIhCsNIPOnAV5mx/8Ws6LzdSY1HCNYEzwYlNn7gZdS1TD
+                                                     nHlC5yg3IIhcBWKVylF6NQwwOElKkKt91V+P3G9HwdRNTVrWhLvkFNa0nMAIm7NI
+                                                     EdkOZqwftDtMucspIQOniBHO3X4gYpdo3EvUEDOftGp7OFe1xToQcN0QREgxU7c5
+                                                     12IADputPYYKs8ZpXPkje/XTCuEX/Xprxt8qFa+7m4I178nJHZaNerJNV1KuZdgq
+                                                     ipslZevuhWDNy1vjtMdMbT8uM7W9aKNUyACqTHTK1jgP1Brnnl3jWJbgXEmyF8RM
+                                                     GRIGnKrq/loPe0WpTjI3zYD62ntBsMvuR0kY4o3Xh7HrleOHV3ftzTAsBZuDkr3B
+                                                     S3oXRLjGWftFuVxur76hEbj1SwgDnHMZvt+RtX+Fh7ApNAM/OcgZDEjl6632YdBUM
+                                                     EoIw/wdGcx5pD1zOk9tw4Cm0c4ODOhsbIxtwWBZXfGxWshZ0sbsqcdwvGEJyRFKCA
+                                                     OAkwDE0ScdhuCZGpqICULP9WCwpks86zA8B05Z5QecIQybx7yJ3+oIvwPOINiXVG
+                                                     UwYHDf+ujlk6I8x9bnvCjk6B8zyM+7gR1M2SEn7QEJ+OMQyLsPQDHs3B/Uhlv1Hq
+                                                     BhLaS5QaH/AToTxa4oLsJMfKiozoAhZpEh0EySnNYM4T05MLI5zKFCj5RaXxB0NB
+                                                     u0PLHMaZgvqDMYEIeoNoSFFJqC1BkM0NLqliNidhZKbWKEQa1fzu0a1FAFtoNq5y
+                                                     A8V+0bNCDozZQpzJly2yDpG1TvrradAVKhsJA5UG+fJP2T6n2k2Ctq/U4YhWV2+lW
+                                                     NNlLSR6p1+wPYzs3QEnfw4V8Nn7parcWkn1az2x7atXmfdBYzHJZloll/UVUKyMAD
+                                                     Cznt/mrS4m4sB0P0+GgiwoIFIfPxEQ0HS8PWJPD6q/X7zF2MS+jMb/rN6RDLtNm/m
+                                                     Tv2ZaSue7fPPFK/vUGs4vb6u1cTo3f9e/32ke8dvIt49w724v7FPtxD2Yf7OHtxL
+                                                     2kv7mftwz21vbivF0/u9AKpj1D1L1rv0f3NvbjHuhf3effiXvNO73d/Fdzvju/DP
+                                                     XfXNT/8vn/8j3/uwaHC5x4Q+fDPf/C1scvPwfgfWYb4w11N2bUAAAAASUVORK5CY
+                                                     II=" alt="" width="150"
+            height="150"></a>
+        <h1 class="h3 mb-3 fw-normal">Please Register your account</h1>
+        {% csrf_token %}
+        <div class="form-floating">
+            <input type="username" name="username" class="form-control" id="floatingInput"
+                placeholder="name@example.com">
+            <label for="floatingInput">Username</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" name="password1" class="form-control mb-0" id="floatingPassword"
+                placeholder="Password">
+            <label for="floatingPassword">Password</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" name="password2" class="form-control" id="floatingPassword" placeholder="Password">
+            <label for="floatingPassword">Confirm Password</label>
+        </div>
+
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+        <p class="mt-3 mb-2">Already have an account : <a href="{% url 'accounts:login' %}"> login</a></p>
+        <p class="mt-5 mb-3 text-muted">&copy; All rights reserved - 2022</p>
+    </form>
+    {% if form.errors %}
+    <div class="alert alert-error">
+        <h6>Please fix the following errors</h6>
+        <ul>
+            {% for field in form %}
+            {% if field.errors %}
+            {% for error in field.errors %}
+            <li><a href="#id_{{ field.name }}" class="error">{{ error|escape }}</a></li>
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% if form.non_field_errors %}
+        {{ form.non_field_errors }}
+        {% endif %}
+    </div>
+    {% endif %}
+</main>
+
+
+{% endblock %}
