@@ -26,3 +26,34 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
+    model = Task
+    form_class = TaskUpdateForm
+    success_url = reverse_lazy('todo:task_list')
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
+
+
+class TaskCompleteView(LoginRequiredMixin, View):
+    model = Task
+    success_url = reverse_lazy('todo:task_list')
+
+    def get(self, request, *args, **kwargs):
+        object_ = Task.objects.get(id=kwargs['pk'])
+        object_.completed = True
+        object_.save()
+        return redirect(self.success_url)
+
+
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
+    model = Task
+    success_url = reverse_lazy('todo:task_list')
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
