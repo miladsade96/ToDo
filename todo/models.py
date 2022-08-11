@@ -19,4 +19,3 @@ class Task(models.Model):
 
     class Meta:
         order_with_respect_to = 'user'
-        ordering = ['-created_at']
