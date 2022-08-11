@@ -24,7 +24,7 @@
 
 {% block content %}
 <main class="form-signin text-center">
-    <form action="{% url 'accounts:register' %}" method="POST">
+    <form action="{% url 'accounts:register' %}" method="POST"> {% csrf_token %}
         <a href="https://github.com/EverLookNeverSee/ToDo"><img class="mb-4 rounded-circle border-3 border-white shadow p-1 mb"
                                                      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIMAAACDCAMA
                                                      AACZQ1hUAAAA81BMVEVbacL/0Fv/////cFhYZsFygMtTYsD/z1b//vr/zlD/9uD/
