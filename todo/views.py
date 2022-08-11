@@ -16,3 +16,13 @@ class TaskListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return self.model.objects.filter(user=self.request.user)
+
+
+class TaskCreateView(LoginRequiredMixin, CreateView):
+    model = Task
+    fields = ['title']
+    success_url = reverse_lazy('todo:task_list')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
