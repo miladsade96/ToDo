@@ -21,3 +21,22 @@ class TodoListAPIView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class TodoDetailApiView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TaskSerializer
+    queryset = Task.objects.all()
+    lookup_field = "todo_id"
+
+    def get_object(self, queryset=None):
+        obj = get_object_or_404(Task, pk=self.kwargs["todo_id"])
+        return obj
+
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def delete(self, request, *args, **kwargs):
+        obj = self.get_object()
+        obj.delete()
+        return Response({"detail": "Successfully removed."})
