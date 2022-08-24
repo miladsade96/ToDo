@@ -15,7 +15,7 @@ class TaskListView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return self.model.objects.filter(user=self.request.user, completed=False)
+        return self.model.objects.filter(user=self.request.user)
 
 
 class TaskCreateView(LoginRequiredMixin, CreateView):

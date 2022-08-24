@@ -29,10 +29,10 @@
           {% for task in tasks %}
           <div class="input-group py-1">
             <span type="text" class="form-control" aria-label="Text input with segmented dropdown button">
-              {% if task.complete == True %}
-              <strike>{{task.title}}</strike>
+              {% if task.completed == True %}
+              <s>{{task.title}}</s>
               {% else %}
-              <span>{{task}}</span>
+              <span>{{task.title}}</span>
               {% endif %}
             </span>
             <a type="button" class="btn btn-danger" href="{% url 'todo:todo_delete' task.id %}"><i class="bi bi-trash"></i></a>
