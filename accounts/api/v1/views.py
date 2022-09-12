@@ -67,3 +67,23 @@ class ActivationAPIView(APIView):
         user_obj.is_active = True
         user_obj.save()
         return Response({"details": "Your account has been successfully activated."})
+
+
+class ActivationResendAPIView(generics.GenericAPIView):
+    serializer_class = ActivationResendSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user_obj = serializer.validated_data['user']
+        token = self.get_token_for_user(user_obj)
+        email = EmailMessage(template_name="email/activation_email.tpl", context={"token": token},
+                             from_email="from@admin.com", to=[user_obj.email])
+        EmailThread(email_obj=email).start()
+        return Response({"details": "Your activation code resend successfully."}, status=status.HTTP_200_OK)
+
+
+    @staticmethod
+    def get_token_for_user(user):
+        refresh = RefreshToken.for_user(user)
+        return str(refresh.access_token)
