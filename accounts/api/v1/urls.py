@@ -13,7 +13,7 @@ urlpatterns = [
     # Activation
     path("activation/confirm/<str:token>", views.ActivationAPIView.as_view(), name="activation"),
     # # Resend activation
-    # path("activation/resend/", views.ActivationResendAPIView.as_view(), name="activation_resend"),
+    path("activation/resend/", views.ActivationResendAPIView.as_view(), name="activation_resend"),
     # # Password change
     # path("change-password/", views.ChangePasswordAPIView.as_view(), name="change_password"),
     # # Token
