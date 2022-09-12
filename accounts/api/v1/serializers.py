@@ -2,7 +2,7 @@ from django.core import exceptions
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework.serializers import (Serializer, ModelSerializer, CharField, ValidationError,
-                                        EmailField, BooleanField)
+                                        EmailField, IntegerField)
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -31,3 +31,18 @@ class RegistrationSerializer(ModelSerializer):
         validated_data.pop('password1', None)
         validated_data['is_active'] = False
         return User.objects.create_user(**validated_data)
+
+
+class ActivationResendSerializer(Serializer):
+    user_id = IntegerField(required=True)
+
+    def validate(self, attrs):
+        user_id = attrs.get("user_id")
+        try:
+            user_obj = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            raise ValidationError({"details": "User does not exist!"})
+        if user_obj.is_active:
+            raise ValidationError({"details": "User is already activated!"})
+        attrs["user"] = user_obj
+        return super().validate(attrs)
