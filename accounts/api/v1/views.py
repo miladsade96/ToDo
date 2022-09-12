@@ -82,8 +82,28 @@ class ActivationResendAPIView(generics.GenericAPIView):
         EmailThread(email_obj=email).start()
         return Response({"details": "Your activation code resend successfully."}, status=status.HTTP_200_OK)
 
-
     @staticmethod
     def get_token_for_user(user):
         refresh = RefreshToken.for_user(user)
         return str(refresh.access_token)
+
+
+class ChangePasswordAPIView(generics.GenericAPIView):
+    model = User
+    permission_classes = [IsAuthenticated]
+    serializer_class = ChangePasswordSerializer
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def put(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            if not self.object.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": "Wrong password!"}, status=status.HTTP_400_BAD_REQUEST)
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+            return Response({"details": "Password changed successfully."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
