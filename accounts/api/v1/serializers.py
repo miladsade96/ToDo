@@ -46,3 +46,24 @@ class ActivationResendSerializer(Serializer):
             raise ValidationError({"details": "User is already activated!"})
         attrs["user"] = user_obj
         return super().validate(attrs)
+
+
+class ChangePasswordSerializer(Serializer):
+    def create(self, validated_data):
+        return super(ChangePasswordSerializer, self).create(validated_data)
+
+    def update(self, instance, validated_data):
+        return super(ChangePasswordSerializer, self).update(instance, validated_data)
+
+    old_password = CharField(max_length=256, required=True)
+    new_password = CharField(max_length=256, required=True)
+    new_password1 = CharField(max_length=256, required=True)
+
+    def validate(self, attrs):
+        if attrs.get("new_password") != attrs.get("new_password1"):
+            raise ValidationError({"details": "Password does not match!"})
+        try:
+            validate_password(attrs.get("new_password"))
+        except exceptions.ValidationError as errors:
+            raise ValidationError({"new_password": list(errors.messages)})
+        return super(ChangePasswordSerializer, self).validate(attrs)
