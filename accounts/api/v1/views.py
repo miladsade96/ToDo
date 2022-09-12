@@ -15,6 +15,7 @@ import jwt
 from jwt.exceptions import ExpiredSignatureError, InvalidSignatureError
 from mail_templated import EmailMessage
 from decouple import config
+from django.conf import settings
 
 
 User = get_user_model()
@@ -45,3 +46,24 @@ class RegistrationAPIView(generics.GenericAPIView):
     def get_token_for_user(user):
         refresh = RefreshToken.for_user(user)
         return str(refresh.access_token)
+
+
+class ActivationAPIView(APIView):
+    """
+    Activating new user account
+    """
+    @staticmethod
+    def get(request, token, *args, **kwargs):
+        try:
+            token = jwt.decode(jwt=token, key=settings.SECRET_KEY, algorithms=["HS256"])
+            user_id = token.get("user_id")
+        except ExpiredSignatureError:
+            return Response({"details": "Token has been expired."}, status=status.HTTP_400_BAD_REQUEST)
+        except InvalidSignatureError:
+            return Response({"details": "Token is not valid."}, status=status.HTTP_400_BAD_REQUEST)
+        user_obj = User.objects.get(pk=user_id)
+        if user_obj.is_active:
+            return Response({"details": "Your account has already been activated."})
+        user_obj.is_active = True
+        user_obj.save()
+        return Response({"details": "Your account has been successfully activated."})
