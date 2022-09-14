@@ -67,3 +67,25 @@ class ChangePasswordSerializer(Serializer):
         except exceptions.ValidationError as errors:
             raise ValidationError({"new_password": list(errors.messages)})
         return super(ChangePasswordSerializer, self).validate(attrs)
+
+
+class CustomAuthTokenSerializer(Serializer):
+    username = CharField(label=_("Username"), write_only=True)
+    password = CharField(label=_("Password"), style={"input_type": "password"}, trim_whitespace=False, write_only=True)
+    token = CharField(label=_("Token"), read_only=True)
+
+    def validate(self, attrs):
+        username = attrs.get("username")
+        password = attrs.get("password")
+        if username and password:
+            user = authenticate(request=self.context.get("request"), username=username, password=password)
+            if not user:
+                msg = _("Unable to login with provided credentials!")
+                raise ValidationError(msg, code="authorization")
+            if not user.is_active:
+                raise ValidationError({"details": "User is not activated!"})
+        else:
+            msg = _("Must include username and password!")
+            raise ValidationError(msg, code="authorization")
+        attrs['user'] = user
+        return attrs
