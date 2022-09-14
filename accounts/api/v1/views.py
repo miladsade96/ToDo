@@ -124,3 +124,12 @@ class CustomAuthTokenAPIView(ObtainAuthToken):
             'username': user.username,
             'email': user.email
         })
+
+
+class CustomDiscardAuthTokenAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @staticmethod
+    def post(request):
+        request.user.auth_token.delete()
+        return Response({"details": "User logged out successfully."}, status=status.HTTP_204_NO_CONTENT)
