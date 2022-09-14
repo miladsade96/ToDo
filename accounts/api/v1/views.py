@@ -133,3 +133,7 @@ class CustomDiscardAuthTokenAPIView(APIView):
     def post(request):
         request.user.auth_token.delete()
         return Response({"details": "User logged out successfully."}, status=status.HTTP_204_NO_CONTENT)
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
