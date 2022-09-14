@@ -89,3 +89,14 @@ class CustomAuthTokenSerializer(Serializer):
             raise ValidationError(msg, code="authorization")
         attrs['user'] = user
         return attrs
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        if not self.user.is_active:
+            raise ValidationError({"details": "user is not verified."})
+        data["user_id"] = self.user.id
+        data["username"] = self.user.username
+        data["email"] = self.user.email
+        return data
