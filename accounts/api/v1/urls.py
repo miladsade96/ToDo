@@ -21,8 +21,9 @@ urlpatterns = [
 
     # Token
     path("token/login/", views.CustomAuthTokenAPIView.as_view(), name="token_login"),
-    # path("token/logout/", CustomDiscardAuthToken.as_view(), name="token_logout"),
-    # # JWT
+    path("token/logout/", views.CustomDiscardAuthTokenAPIView.as_view(), name="token_logout"),
+
+    # JWT
     # path("jwt/create/", views.CustomTokenObtainPairView.as_view(), name="jwt_create"),
     # path("jwt/refresh/", TokenRefreshView.as_view(), name="jwt_refresh"),
     # path("jwt/verify/", TokenVerifyView.as_view(), name="jwt_verify")
