@@ -1,8 +1,14 @@
 from django.core import exceptions
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import authenticate, get_user_model
-from rest_framework.serializers import (Serializer, ModelSerializer, CharField, ValidationError,
-                                        EmailField, IntegerField)
+from rest_framework.serializers import (
+    Serializer,
+    ModelSerializer,
+    CharField,
+    ValidationError,
+    EmailField,
+    IntegerField,
+)
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -16,20 +22,20 @@ class RegistrationSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'password1']
+        fields = ["username", "email", "password", "password1"]
 
     def validate(self, attrs):
-        if attrs.get('password') != attrs.get('password1'):
-            raise ValidationError({'details': 'passwords does not match!'})
+        if attrs.get("password") != attrs.get("password1"):
+            raise ValidationError({"details": "passwords does not match!"})
         try:
-            validate_password(attrs.get('password'))
+            validate_password(attrs.get("password"))
         except exceptions.ValidationError as errors:
-            raise ValidationError({'password': list(errors.messages)})
+            raise ValidationError({"password": list(errors.messages)})
         return super().validate(attrs)
 
     def create(self, validated_data):
-        validated_data.pop('password1', None)
-        validated_data['is_active'] = False
+        validated_data.pop("password1", None)
+        validated_data["is_active"] = False
         return User.objects.create_user(**validated_data)
 
 
@@ -71,14 +77,23 @@ class ChangePasswordSerializer(Serializer):
 
 class CustomAuthTokenSerializer(Serializer):
     username = CharField(label=_("Username"), write_only=True)
-    password = CharField(label=_("Password"), style={"input_type": "password"}, trim_whitespace=False, write_only=True)
+    password = CharField(
+        label=_("Password"),
+        style={"input_type": "password"},
+        trim_whitespace=False,
+        write_only=True,
+    )
     token = CharField(label=_("Token"), read_only=True)
 
     def validate(self, attrs):
         username = attrs.get("username")
         password = attrs.get("password")
         if username and password:
-            user = authenticate(request=self.context.get("request"), username=username, password=password)
+            user = authenticate(
+                request=self.context.get("request"),
+                username=username,
+                password=password,
+            )
             if not user:
                 msg = _("Unable to login with provided credentials!")
                 raise ValidationError(msg, code="authorization")
@@ -87,7 +102,7 @@ class CustomAuthTokenSerializer(Serializer):
         else:
             msg = _("Must include username and password!")
             raise ValidationError(msg, code="authorization")
-        attrs['user'] = user
+        attrs["user"] = user
         return attrs
 
 
