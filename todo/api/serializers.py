@@ -4,9 +4,10 @@ from rest_framework import serializers
 
 class TaskSerializer(serializers.ModelSerializer):
     """
-        Task model serializer class
+    Task model serializer class
     """
+
     class Meta:
         model = Task
-        fields = ['id', 'user', 'title', 'completed', 'created_at', 'updated_at']
+        fields = ["id", "user", "title", "completed", "created_at", "updated_at"]
         read_only_fields = ["user"]

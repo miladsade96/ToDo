@@ -6,11 +6,18 @@ class TaskUpdateForm(ModelForm):
     """
     Form for updating a task.
     """
+
     title = CharField(
-        widget=TextInput(attrs={
-            'class': 'form-control-rounded-4', 'placeholder': 'Title', 'name': 'title'}),
-        label='')
+        widget=TextInput(
+            attrs={
+                "class": "form-control-rounded-4",
+                "placeholder": "Title",
+                "name": "title",
+            }
+        ),
+        label="",
+    )
 
     class Meta:
         model = Task
-        fields = ('title',)
+        fields = ("title",)
