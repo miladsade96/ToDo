@@ -86,3 +86,50 @@ class TestActivationResendAPIView:
         data = {"user_id": active_user.id}
         response = api_client.post(url, data)
         assert response.status_code == 400
+
+
+@pytest.mark.django_db
+class TestChangePasswordAPIView:
+    def test_change_password_successful_status(self, api_client, active_user):
+        url = reverse("accounts:api-v1:change_password")
+        data = {
+            "old_password": "A@123456",
+            "new_password": "B#7890-=",
+            "new_password1": "B#7890-="
+        }
+        api_client.force_login(user=active_user)
+        response = api_client.put(url, data)
+        assert response.status_code == 200
+
+    def test_change_password_new_passwords_no_match_status(self, api_client, active_user):
+        url = reverse("accounts:api-v1:change_password")
+        data = {
+            "old_password": "A@123456",
+            "new_password": "B#7890-=",
+            "new_password1": "B#7890-=as"
+        }
+        api_client.force_login(user=active_user)
+        response = api_client.put(url, data)
+        assert response.status_code == 400
+
+    def test_change_password_old_password_no_match_status(self, api_client, active_user):
+        url = reverse("accounts:api-v1:change_password")
+        data = {
+            "old_password": "A@12345612345",
+            "new_password": "B#7890-=",
+            "new_password1": "B#7890-="
+        }
+        api_client.force_login(user=active_user)
+        response = api_client.put(url, data)
+        assert response.status_code == 400
+
+    def test_change_password_insecure_password_status(self, api_client, active_user):
+        url = reverse("accounts:api-v1:change_password")
+        data = {
+            "old_password": "A@123456",
+            "new_password": "12345",
+            "new_password1": "12345"
+        }
+        api_client.force_login(user=active_user)
+        response = api_client.put(url, data)
+        assert response.status_code == 400
