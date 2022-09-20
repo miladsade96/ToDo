@@ -50,3 +50,19 @@ class TestRegistrationAPIView:
         assert common_user.username == "test_user"
         assert common_user.email == "test_user@test.com"
         assert common_user.is_active is False
+
+
+@pytest.mark.django_db
+class TestActivationAPIView:
+    def test_user_activation_successfully_status(self, common_user, api_client):
+        user_token = str(RefreshToken.for_user(common_user).access_token)
+        url = reverse("accounts:api-v1:activation", kwargs={"token": user_token})
+        response = api_client.get(url)
+        assert response.status_code == 200
+
+    def test_user_activation_invalid_token_status(self, common_user, api_client):
+        user_token = str(RefreshToken.for_user(common_user).access_token)
+        url = reverse("accounts:api-v1:activation", kwargs={"token": f"{user_token}1"})
+        response = api_client.get(url)
+        assert response.status_code == 400
+
