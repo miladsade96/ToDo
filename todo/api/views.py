@@ -39,4 +39,4 @@ class TodoDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     def delete(self, request, *args, **kwargs):
         obj = self.get_object()
         obj.delete()
-        return Response({"detail": "Successfully removed."})
+        return Response({"detail": "Successfully removed."}, status=204)
