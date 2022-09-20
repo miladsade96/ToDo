@@ -2,6 +2,7 @@ import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
 from django.contrib.auth.models import User
+from todo.models import Task
 
 
 @pytest.fixture()
@@ -14,6 +15,12 @@ def api_client():
 def common_user():
     user = User.objects.create_user(username="test_user", password="A@123456")
     return user
+
+
+@pytest.fixture()
+def sample_task(common_user):
+    task = Task.objects.create(user=common_user, title="sample task")
+    return task
 
 
 @pytest.mark.django_db
