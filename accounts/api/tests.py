@@ -12,3 +12,9 @@ def email_message():
         to=["to@user.com"],
     )
     return email_obj
+
+
+class TestUtilities:
+    def test_email_thread(self, email_message):
+        email = EmailThread(email_message)
+        email.start()
