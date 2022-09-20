@@ -66,3 +66,23 @@ class TestActivationAPIView:
         response = api_client.get(url)
         assert response.status_code == 400
 
+
+@pytest.mark.django_db
+class TestActivationResendAPIView:
+    def test_activation_resend_successfully_status(self, api_client, common_user):
+        url = reverse("accounts:api-v1:activation_resend")
+        data = {"user_id": common_user.id}
+        response = api_client.post(url, data)
+        assert response.status_code == 200
+
+    def test_activation_resend_user_not_found_status(self, api_client):
+        url = reverse("accounts:api-v1:activation_resend")
+        data = {"user_id": 10000}
+        response = api_client.post(url, data)
+        assert response.status_code == 400
+
+    def test_activation_resend_already_active_user_status(self, api_client, active_user):
+        url = reverse("accounts:api-v1:activation_resend")
+        data = {"user_id": active_user.id}
+        response = api_client.post(url, data)
+        assert response.status_code == 400
