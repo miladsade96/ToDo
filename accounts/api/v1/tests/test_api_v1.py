@@ -13,6 +13,7 @@ def api_client():
 
 
 @pytest.fixture()
+@pytest.mark.django_db
 def common_user():
     user = User.objects.create_user(
         username="test_user",
@@ -24,10 +25,11 @@ def common_user():
 
 
 @pytest.fixture()
+@pytest.mark.django_db
 def active_user():
     user = User.objects.create_user(
-        username="test_user",
-        email="test_user@test.com",
+        username="active_user",
+        email="active_user@test.com",
         password="A@123456",
     )
     return user
