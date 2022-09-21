@@ -52,6 +52,13 @@ class TestRegistrationAPIView:
         assert common_user.username == "test_user"
         assert common_user.email == "test_user@test.com"
         assert common_user.is_active is False
+        assert common_user.id == 1
+
+    def test_active_user_fields(self, active_user):
+        assert active_user.username == "active_user"
+        assert active_user.email == "active_user@test.com"
+        assert active_user.is_active is True
+        assert active_user.id == 1
 
 
 @pytest.mark.django_db
