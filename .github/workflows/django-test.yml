@@ -17,4 +17,4 @@ jobs:
     - name: Setup Docker-Compose
       run: docker-compose up --build -d
     - name: Run tests
-      run: docker container exec ToDo-backend sh -c "black . && flake8 && cd core/ && pytest ."
+      run: docker container exec ToDo-backend sh -c "black . && flake8 && pytest ."
