@@ -15,7 +15,7 @@ django-filter==22.1
 django-mail-templated==2.6.5
 django-templated-mail==1.1.1
 djangorestframework==3.13.1
-djangorestframework-simplejwt==5.2.0
+djangorestframework-simplejwt
 djoser==2.1.0
 drf-yasg==1.21.3
 flake8==5.0.4
