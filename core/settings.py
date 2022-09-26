@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
     "mail_templated",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -155,3 +156,10 @@ EMAIL_HOST = "smtp4dev"
 EMAIL_HOST_USER = ""
 EMAIL_HOST_PASSWORD = ""
 EMAIL_PORT = 25
+
+
+# Celery configurations
+CELERY_BROKER_URL = (
+    "redis://todo-redis:6379/1"  # pattern: redis://redis_ip_or_container name:port/database
+)
+# celery start command inside docker compose --> celery -A core worker -l INFO
