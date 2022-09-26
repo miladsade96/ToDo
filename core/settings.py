@@ -163,3 +163,5 @@ CELERY_BROKER_URL = (
     "redis://todo-redis:6379/1"  # pattern: redis://redis_ip_or_container name:port/database
 )
 # celery start command inside docker compose --> celery -A core worker -l INFO
+# celery beat start command inside backend service -->
+# celery -A core  beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
