@@ -31,3 +31,4 @@ social-auth-app-django==4.0.0
 social-auth-core==4.3.0
 sqlparse==0.4.2
 swagger-spec-validator==2.7.4
+django-redis
