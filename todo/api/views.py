@@ -4,6 +4,7 @@ from .serializers import TaskSerializer
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
+from django.core.cache import cache
 
 
 class TodoListAPIView(generics.ListCreateAPIView):
@@ -40,3 +41,9 @@ class TodoDetailApiView(generics.RetrieveUpdateDestroyAPIView):
         obj = self.get_object()
         obj.delete()
         return Response({"detail": "Successfully removed."}, status=204)
+
+
+class WeatherApiView(generics.RetrieveAPIView):
+    def get(self, request, *args, **kwargs):
+        result = cache.get("weather")
+        return Response(result)
