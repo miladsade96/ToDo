@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  redis:
+    container_name: todo-redis
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  backend:
+    build: .
+    container_name: todo-backend
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn core.wsgi --bind 0.0.0.0:8000"
+    volumes:
+      - ./:/app/
+      - static_volume:/app/static
+      - media_volume:/app/media
+    expose:
+      - "8000"
+    depends_on:
+      - redis
+
+  nginx:
+    image: nginx
+    container_name: todo-nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - redis
+      - backend
+    restart: always
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - static_volume:/home/app/static
+      - media_volume:/home/app/media
+
+  celery_worker:
+    build: .
+    container_name: todo-celery-worker
+    command: sh -c "celery -A core worker --loglevel=info"
+    depends_on:
+      - redis
+      - backend
+    volumes:
+      - .:/app/
+
+volumes:
+  static_volume:
+  media_volume:
