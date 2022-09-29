@@ -4,7 +4,9 @@ from .serializers import TaskSerializer
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
-from django.core.cache import cache
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+import requests
 
 
 class TodoListAPIView(generics.ListCreateAPIView):
