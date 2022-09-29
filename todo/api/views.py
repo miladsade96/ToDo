@@ -46,6 +46,9 @@ class TodoDetailApiView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class WeatherApiView(generics.RetrieveAPIView):
+    @method_decorator(cache_page(timeout=60 * 20))
     def get(self, request, *args, **kwargs):
-        result = cache.get("weather")
-        return Response(result)
+        response = requests.get(
+            "https://fd99998d-3122-4526-8338-6b73d7c9d79a.mock.pstmn.io/weather"
+        ).json()
+        return Response(response)
