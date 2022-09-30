@@ -45,6 +45,17 @@ services:
     volumes:
       - .:/app/
 
+  celery_beat:
+    build: .
+    container_name: todo-celery-beat
+    command: sh -c "celery -A core  beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler"
+    depends_on:
+      - redis
+      - backend
+    volumes:
+      - .:/app/
+
+
 volumes:
   static_volume:
   media_volume:
